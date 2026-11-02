@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsApp Complaint Portal</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    direction: rtl;
+}
+.container {
+    max-width: 450px;
+    margin: 40px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 3px 15px #ccc;
+}
+h2 {
+    text-align: center;
+    color: #128c7e;
+}
+input, select, textarea {
+    width: 100%;
+    padding: 13px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    font-size: 15px;
+}
+button {
+    width: 100%;
+    padding: 14px;
+    background: #128c7e;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-size: 17px;
+    cursor: pointer;
+}
+button:hover {
+    background: #075e54;
+}
+#message {
+    text-align: center;
+    margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>WhatsApp Complaint Portal</h2>
+
+<form id="complaintForm">
+
+<input
+type="tel"
+id="phone"
+placeholder="WhatsApp Number"
+required>
+
+<select id="reason" required>
+<option value="">شکایت کی وجہ منتخب کریں</option>
+<option>Fraud / Scam</option>
+<option>Harassment</option>
+<option>Threats</option>
+<option>Spam</option>
+<option>Fake Account</option>
+<option>Other</option>
+</select>
+
+<textarea
+id="details"
+placeholder="شکایت کی مکمل تفصیل"
+rows="5"
+required></textarea>
+
+<input
+type="email"
+id="email"
+placeholder="Your Email"
+required>
+
+<label>
+<input type="checkbox" id="confirm" required>
+میں تصدیق کرتا ہوں کہ فراہم کردہ معلومات درست ہیں۔
+</label>
+
+<button type="submit">Submit Complaint</button>
+
+</form>
+
+<div id="message"></div>
+
+</div>
+
+<script>
+document.getElementById("complaintForm")
+.addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+    const complaint = {
+        phone: document.getElementById("phone").value,
+        reason: document.getElementById("reason").value,
+        details: document.getElementById("details").value,
+        email: document.getElementById("email").value,
+        date: new Date().toISOString(),
+        status: "Pending Admin Review"
+    };
+
+    console.log(complaint);
+
+    document.getElementById("message").innerText =
+    "شکایت کا ڈیمو فارم مکمل ہوگیا۔";
+
+});
+</script>
+
+</body>
+</html>
