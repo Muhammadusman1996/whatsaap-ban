@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.admin {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px;
+}
+.card {
+    background: #102c25;
+    border: 1px solid #25d366;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 12px;
+}
+.status {
+    color: #25d366;
+}
+button {
+    margin: 5px 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="admin">
+
+<h2>Super Admin Dashboard</h2>
+
+<div class="card">
+<h3>Admin Login</h3>
+<input type="email" id="adminEmail" placeholder="Admin Email">
+<input type="password" id="adminPassword" placeholder="Admin Password">
+<button onclick="login()">Login</button>
+<p id="loginMessage"></p>
+</div>
+
+<div id="panel" hidden>
+
+<div class="card">
+<h3>Customer Management</h3>
+
+<input type="text" id="customerName" placeholder="Customer Name">
+<input type="email" id="customerEmail" placeholder="Customer Email">
+
+<button onclick="addCustomer()">Add Customer</button>
+
+<div id="customers"></div>
+</div>
+
+<div class="card">
+<h3>Payment Management</h3>
+
+<input type="email" id="paymentEmail" placeholder="Customer Email">
+<input type="number" id="paymentAmount" placeholder="Payment Amount">
+
+<button onclick="addPayment()">Add Payment</button>
+
+<div id="payments"></div>
+</div>
+
+</div>
+</div>
+
+<script>
+let customers = [];
+let payments = [];
+
+function login() {
+    const email = document.getElementById("adminEmail").value;
+    const password = document.getElementById("adminPassword").value;
+
+    if (email === "admin@example.com" &&
+        password === "demo123") {
+
+        document.getElementById("panel").hidden = false;
+        document.getElementById("loginMessage").innerText =
+        "Demo Admin Login Successful";
+
+    } else {
+        document.getElementById("loginMessage").innerText =
+        "Invalid Demo Login";
+    }
+}
+
+function addCustomer() {
+    const name = document.getElementById("customerName").value;
+    const email = document.getElementById("customerEmail").value;
+
+    if (!name || !email) return;
+
+    customers.push({
+        name,
+        email,
+        status: "Pending",
+        balance: 0
+    });
+
+    showCustomers();
+}
+
+function showCustomers() {
+    const box = document.getElementById("customers");
+    box.innerHTML = "";
+
+    customers.forEach((customer, index) => {
+        box.innerHTML += `
+        <div class="card">
+        <p>${customer.name}</p>
+        <p>${customer.email}</p>
+        <p>Status: ${customer.status}</p>
+        <p>Balance: Rs. ${customer.balance}</p>
+        <button onclick="approve(${index})">Approve</button>
+        <button onclick="deactivate(${index})">Deactivate</button>
+        <button onclick="activate(${index})">Activate</button>
+        </div>`;
+    });
+}
+
+function approve(index) {
+    customers[index].status = "Approved";
+    showCustomers();
+}
+
+function deactivate(index) {
+    customers[index].status = "Deactivated";
+    showCustomers();
+}
+
+function activate(index) {
+    customers[index].status = "Active";
+    showCustomers();
+}
+
+function addPayment() {
+    const email = document.getElementById("paymentEmail").value;
+    const amount = Number(document.getElementById("paymentAmount").value);
+
+    const customer = customers.find(c => c.email === email);
+
+    if (!customer || amount <= 0) {
+        alert("Customer not found or invalid amount");
+        return;
+    }
+
+    customer.balance += amount;
+
+    payments.push({
+        email,
+        amount,
+        date: new Date().toLocaleString()
+    });
+
+    showCustomers();
+
+    document.getElementById("payments").innerText =
+    payments.map(p =>
+        p.email + " - Rs. " + p.amount
+    ).join("\n");
+}
+</script>
+
+</body>
+</html>
