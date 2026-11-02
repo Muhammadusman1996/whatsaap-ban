@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.dashboard {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+}
+.panel-card {
+    background: #102c25;
+    border: 1px solid #25d366;
+    padding: 18px;
+    border-radius: 12px;
+    margin: 15px 0;
+}
+.balance {
+    color: #25d366;
+    font-size: 28px;
+    font-weight: bold;
+}
+.status {
+    color: orange;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<h2>Customer Dashboard</h2>
+
+<div class="panel-card">
+    <h3>Account Information</h3>
+    <p>Customer: Demo Customer</p>
+    <p>Account Status: <span class="status">Pending Approval</span></p>
+</div>
+
+<div class="panel-card">
+    <h3>My Wallet</h3>
+    <p class="balance">Rs. 0</p>
+    <p>Complaint Fee: Rs. 1,000</p>
+    <p>Payment Status: Unpaid</p>
+</div>
+
+<div class="panel-card">
+    <h3>Submit Complaint</h3>
+
+    <form id="complaintForm">
+
+        <input
+        type="tel"
+        id="phone"
+        placeholder="WhatsApp Number"
+        required>
+
+        <select id="reason" required>
+            <option value="">Select Complaint Reason</option>
+            <option>Fraud / Scam</option>
+            <option>Harassment</option>
+            <option>Threats</option>
+            <option>Spam</option>
+            <option>Fake Account</option>
+        </select>
+
+        <textarea
+        id="details"
+        placeholder="Complaint Details"
+        rows="5"
+        required></textarea>
+
+        <button type="submit">Submit Complaint</button>
+
+    </form>
+
+    <p id="message"></p>
+</div>
+
+<div class="panel-card">
+    <h3>My Complaint History</h3>
+    <p id="history">No complaints submitted.</p>
+</div>
+
+<button onclick="logout()">Logout</button>
+
+</div>
+
+<script>
+const form = document.getElementById("complaintForm");
+
+form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const phone = document.getElementById("phone").value;
+    const reason = document.getElementById("reason").value;
+    const details = document.getElementById("details").value;
+
+    const complaint = {
+        phone: phone,
+        reason: reason,
+        details: details,
+        status: "Pending Admin Review",
+        date: new Date().toLocaleString()
+    };
+
+    document.getElementById("history").innerText =
+        "Number: " + complaint.phone +
+        " | Reason: " + complaint.reason +
+        " | Status: " + complaint.status;
+
+    document.getElementById("message").innerText =
+        "Demo request recorded. Official review is required.";
+
+    console.log(complaint);
+
+    form.reset();
+});
+
+function logout() {
+    alert("Demo logout successful.");
+}
+</script>
+
+</body>
+</html>
